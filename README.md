@@ -28,3 +28,7 @@ git clone https://github.com/SAFEHR-data/omop-metadata.git
     ```shell
     git tag ${version}
     ```
+4. Push the tag for a release
+    ```shell
+    git push --tags origin
+    ```
