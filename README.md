@@ -58,7 +58,8 @@ git clone https://github.com/SAFEHR-data/omop-vocabs-processed.git
 ## Release procedure
 
 1. Update the vocabulary
-2. Update the [data/version.txt](data/version.txt) file with this version
+2. Update the [data/version.txt](data/version.txt) file with this version. 
+   For backwards compatibility, also copy this to `data/metadata_version.txt`, we will eventually not maintain this file.
 3. Tag the release, replacing `${version}` with your version, e.g. `v4`
     ```shell
     git tag ${version}
