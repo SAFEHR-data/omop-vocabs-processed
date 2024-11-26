@@ -15,28 +15,28 @@ For example for `v4` data file for the `data/version.txt`:
 
 ```r
 tag = "v4"
-relative_path = "data/version.txt"
+relative_path = "data/concept.parquet"
 download_url = glue::glue("https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}")
 download.file(download_url,
-              destfile = "version.txt",
-              mode = "w")
+              destfile = "concept.parquet",
+              mode = "wb")
 ```
 
 ```python
 import urllib.request
 
 tag = "v4"
-relative_path = "data/version.txt"
+relative_path = "data/concept.parquet"
 download_url = f"https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}"
-local_filename = "version.txt"
+local_filename = "concept.parquet"
 
 urllib.request.urlretrieve(download_url, local_filename)
 ```
 
 ```shell
 export OMOP_METADATA_VERSION=v4
-export OMOP_METADATA_PATH=data/version.txt
-curl -L -o version.txt "https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/${OMOP_METADATA_VERSION}/${OMOP_METADATA_PATH}"
+export OMOP_METADATA_PATH=data/concept.parquet
+curl -L -o concept.parquet "https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/${OMOP_METADATA_VERSION}/${OMOP_METADATA_PATH}"
 ```
 
 ## Local development
