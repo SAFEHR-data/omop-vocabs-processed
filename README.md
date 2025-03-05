@@ -11,12 +11,12 @@ in this format, replacing the curly braced values:
 
 `https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}`
 
-For example for `v4` data file for the `data/version.txt`:
+For example for `v5` data file for the `data/version.txt`:
 
 ### R
 
 ```r
-tag = "v4"
+tag = "v5"
 relative_path = "data/concept.parquet"
 download_url = glue::glue("https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}")
 download.file(download_url,
@@ -28,7 +28,7 @@ download.file(download_url,
 ```python
 import urllib.request
 
-tag = "v4"
+tag = "v5"
 relative_path = "data/concept.parquet"
 download_url = f"https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}"
 local_filename = "concept.parquet"
@@ -38,7 +38,7 @@ urllib.request.urlretrieve(download_url, local_filename)
 ### Shell
 
 ```shell
-export OMOP_METADATA_VERSION=v4
+export OMOP_METADATA_VERSION=v5
 export OMOP_METADATA_PATH=data/concept.parquet
 curl -L -o concept.parquet "https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/${OMOP_METADATA_VERSION}/${OMOP_METADATA_PATH}"
 ```
@@ -64,7 +64,7 @@ git clone https://github.com/SAFEHR-data/omop-vocabs-processed.git
 1. Update the vocabulary
 2. Update the [data/version.txt](data/version.txt) file with this version. 
    For backwards compatibility, also copy this to `data/metadata_version.txt`, we will eventually not maintain this file.
-3. Tag the release, replacing `${version}` with your version, e.g. `v4`
+3. Tag the release, replacing `${version}` with your version, e.g. `v5`
     ```shell
     git tag ${version}
     ```
