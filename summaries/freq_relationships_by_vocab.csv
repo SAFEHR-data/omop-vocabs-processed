@@ -1,0 +1,56 @@
+vocabulary_id,n
+RxNorm Extension,18327508
+SNOMED,8461029
+RxNorm,5292148
+LOINC,2366232
+dm+d,1190178
+OMOP Genomic,794749
+ICDO3,656952
+HemOnc,311773
+ATC,225430
+Read,109652
+UK Biobank,77864
+ICD10,58364
+Cancer Modifier,32566
+ICD9Proc,25026
+HCPCS,23101
+OPCS4,21926
+NCIt,20563
+CDM,15294
+OMOP Extension,13426
+OXMIS,7782
+UCUM,6435
+OncoTree,3507
+NUCC,3044
+Medicare Specialty,1299
+CIViC,1190
+Revenue Code,1076
+Race,652
+CMS Place of Service,646
+SOPT,644
+Visit,522
+ABMS,508
+HES Specialty,384
+Type Concept,360
+Currency,360
+UB04 Typ bill,324
+Cost,102
+Condition Status,76
+US Census,44
+UB04 Pt dis status,41
+Relationship,36
+Episode,32
+Visit Type,30
+Plan Stop Reason,26
+Plan,22
+Domain,22
+NHS Place of Service,15
+NHS Ethnic Category,15
+Korean Revenue Code,14
+Gender,13
+UB04 Point of Origin,13
+Sponsor,12
+UB04 Pri Typ of Adm,12
+Ethnicity,8
+Language,3
+Metadata,2

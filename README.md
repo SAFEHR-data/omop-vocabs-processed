@@ -22,6 +22,12 @@ download_url = glue::glue("https://github.com/SAFEHR-data/omop-vocabs-processed/
 download.file(download_url,
               destfile = "concept.parquet",
               mode = "wb")
+              
+relative_path = "data/concept_relationship.parquet"
+download_url = glue::glue("https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}")
+download.file(download_url,
+              destfile = "concept_relationship.parquet",
+              mode = "wb")              
 ```
 ### Python
 
@@ -43,6 +49,36 @@ export OMOP_METADATA_PATH=data/concept.parquet
 curl -L -o concept.parquet "https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/${OMOP_METADATA_VERSION}/${OMOP_METADATA_PATH}"
 ```
 
+## Brief summary of vocabs
+
+### R
+
+After downloading as indicated above.
+
+```r
+
+library(dplyr)
+library(arrow)
+library(readr)
+
+# get reference to the data
+concept       <- arrow::open_dataset("concept.parquet")
+relationship  <- arrow::open_dataset("concept_relationship.parquet")
+
+freq_concepts_by_vocab      <- concept |> 
+    count(vocabulary_id, sort=TRUE) |> 
+    collect()
+    
+freq_relationships_by_vocab <- relationship |> 
+    left_join(concept, join_by(concept_id_1==concept_id)) |> 
+    count(vocabulary_id, sort=TRUE) |> 
+    collect()
+
+readr::write_csv(freq_concepts_by_vocab,"summaries/freq_concepts_by_vocab.csv")
+readr::write_csv(freq_relationships_by_vocab,"summaries/freq_relationships_by_vocab.csv")
+
+```
+
 ## Local development
 
 If you haven't already set up `git lfs` with your git user account:
@@ -61,15 +97,18 @@ git clone https://github.com/SAFEHR-data/omop-vocabs-processed.git
 
 ## Release procedure
 
-1. Update the vocabulary
-2. Update the [data/version.txt](data/version.txt) file with this version. 
+1. Clone this repository and create a new branch
+1. Download vocabulary csv files from Athena & pre-process to parquet files as [detailed in the UCLH omop_es private repository](https://github.com/uclh-criu/omop_es/blob/master/omop_metadata/omop_vocabs_readme.md)
+1. Copy new parquet files to the data folder 
+1. Update the [data/version.txt](data/version.txt) file with this version. 
    For backwards compatibility, also copy this to `data/metadata_version.txt`, we will eventually not maintain this file.
-3. Tag the release, replacing `${version}` with your version, e.g. `v5`
+1. Tag the release, replacing `${version}` with your version, e.g. `v5`
     ```shell
     git tag ${version}
     ```
-4. Push the tag for a release
+1. Push the tag for a release
     ```shell
     git push --tags origin
     ```
+1. Submit pull request
 
