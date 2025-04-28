@@ -60,22 +60,34 @@ After downloading as indicated above.
 library(dplyr)
 library(arrow)
 library(readr)
+library(here)
+
+datafolder <- "data"
 
 # get reference to the data
-concept       <- arrow::open_dataset("concept.parquet")
-relationship  <- arrow::open_dataset("concept_relationship.parquet")
+concept       <- arrow::open_dataset(here(datafolder,"concept.parquet"))
+concept_relationship  <- arrow::open_dataset(here(datafolder,"concept_relationship.parquet"))
+drug_strength  <- arrow::open_dataset(here(datafolder,"drug_strength.parquet"))
 
 freq_concepts_by_vocab      <- concept |> 
     count(vocabulary_id, sort=TRUE) |> 
     collect()
     
-freq_relationships_by_vocab <- relationship |> 
+freq_concept_relationships_by_vocab <- concept_relationship |> 
     left_join(concept, join_by(concept_id_1==concept_id)) |> 
     count(vocabulary_id, sort=TRUE) |> 
     collect()
 
 readr::write_csv(freq_concepts_by_vocab,"summaries/freq_concepts_by_vocab.csv")
-readr::write_csv(freq_relationships_by_vocab,"summaries/freq_relationships_by_vocab.csv")
+readr::write_csv(freq_concept_relationships_by_vocab,"summaries/freq_concept_relationships_by_vocab.csv")
+
+# create simple summary file just recording num rows in each vocab file
+# can potentially be used to compare versions of vocabs
+dfsum <- tibble( nconcept = concept |> nrow(),
+                 nconcept_relationship = relationship |> nrow(),
+                 ndrug_strength = drug_strength |> nrow())
+                 
+readr::write_csv(dfsum,"summaries/nrows_per_vocab_file.csv")                 
 
 ```
 
