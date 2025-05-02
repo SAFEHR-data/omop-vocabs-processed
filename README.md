@@ -2,7 +2,11 @@
 
 Repository for pre-processed vocabularies for working with the [OMOP CDM](https://ohdsi.github.io/CommonDataModel/) at UCLH.
 
-You can download these files directly or follow the local development instructions to use git to clone the files
+You can download these files directly or follow the local development instructions to use git to clone the files.
+
+The files are a subset of the OMOP vocabularies (e.g. SNOMED, LOINC etc.) downloaded from [Athena](https://athena.ohdsi.org/) by selecting which we need. They are saved to parquet files for space & efficiency of use. Here is a summary of which [vocabs are included in the latest version](summaries/freq_concepts_by_vocab.csv).
+
+Note that all vocabulary files are included (e.g. concept, concept_relationship, vocabulary etc.) although we don't use all files in our ETL. Here are the [number of rows per file and the OHDSI vocabulary version](summaries/nrows_per_vocab_file.csv).
 
 ## Downloading versions
 
@@ -92,8 +96,14 @@ readr::write_csv(freq_concept_relationships_by_vocab,"summaries/freq_concept_rel
 # can potentially be used to compare versions of vocabs
 dfsum <- tibble( vocabulary_version =     p$vocabulary |> filter(vocabulary_id=='None') |> pull(vocabulary_version,as_vector=TRUE),
                  nconcept =               p$concept |> nrow(),
+                 nconcept_ancestor =      p$concept_ancestor |> nrow(),
                  nconcept_relationship =  p$concept_relationship |> nrow(),
-                 ndrug_strength =         p$drug_strength |> nrow())
+                 ndrug_strength =         p$drug_strength |> nrow(),
+                 nvocabulary =            p$vocabulary |> nrow(), 
+                 nconcept_class =         p$concept_class |> nrow(),                                   nconcept_synonym =       p$concept_synonym |> nrow(),
+                 ndomain =                p$domain |> nrow(),
+                 nrelationship =          p$relationship |> nrow()
+                 )
                  
 readr::write_csv(dfsum,"summaries/nrows_per_vocab_file.csv")                 
 
@@ -122,10 +132,15 @@ git clone https://github.com/SAFEHR-data/omop-vocabs-processed.git
 1. Copy new parquet files to the data folder 
 1. Update the [data/version.txt](data/version.txt) file with this version. 
    For backwards compatibility, also copy this to `data/metadata_version.txt`, we will eventually not maintain this file.
-1. Tag the release, replacing `${version}` with your version, e.g. `v5`
+1. Tag the release, replacing `${version}` , e.g. `git tag v5`
     ```shell
     git tag ${version}
     ```
+  If you need to re-use an existing tag, you first have to delete it on both local & remote first :
+    ```shell
+    git tag -d ${version}
+    git push origin --delete v5
+    ```  
 1. Push the tag for a release
     ```shell
     git push --tags origin
