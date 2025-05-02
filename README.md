@@ -67,7 +67,7 @@ library(readr)
 library(here)
 library(tools)
 
-path <- here("data")
+data_path <- here("data")
 
 # open references to all parquet files in the folder
 p <- list.files(path, full.names = TRUE, recursive = FALSE, pattern = "*.parquet") |>
