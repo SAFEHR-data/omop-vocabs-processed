@@ -138,8 +138,9 @@ git clone https://github.com/SAFEHR-data/omop-vocabs-processed.git
     ```
   If you need to re-use an existing tag, you first have to delete it on both local & remote first :
     ```shell
-    git tag -d ${version}
+    git tag -d v5
     git push origin --delete v5
+    git tag v5
     ```  
 1. Push the tag for a release
     ```shell
