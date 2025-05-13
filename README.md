@@ -70,7 +70,7 @@ library(tools)
 data_path <- here("data")
 
 # open references to all parquet files in the folder
-p <- list.files(path, full.names = TRUE, recursive = FALSE, pattern = "*.parquet") |>
+p <- list.files(data_path, full.names = TRUE, recursive = FALSE, pattern = "*.parquet") |>
      #set list element names, remove extension, lowercase, remove path
      purrr::set_names(~ file_path_sans_ext(tolower(basename(.)))) |>
      purrr::map(arrow::open_dataset)
