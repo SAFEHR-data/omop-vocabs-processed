@@ -70,7 +70,7 @@ library(tools)
 data_path <- here("data")
 
 # open references to all parquet files in the folder
-p <- list.files(path, full.names = TRUE, recursive = FALSE, pattern = "*.parquet") |>
+p <- list.files(data_path, full.names = TRUE, recursive = FALSE, pattern = "*.parquet") |>
      #set list element names, remove extension, lowercase, remove path
      purrr::set_names(~ file_path_sans_ext(tolower(basename(.)))) |>
      purrr::map(arrow::open_dataset)
@@ -127,7 +127,7 @@ git clone https://github.com/SAFEHR-data/omop-vocabs-processed.git
 
 ## Release procedure
 
-1. Clone this repository and create a new branch
+1. Clone this repository and **create a new branch**
 1. Download vocabulary csv files from Athena & pre-process to parquet files as [detailed in the UCLH omop_es private repository](https://github.com/uclh-criu/omop_es/blob/master/omop_metadata/omop_vocabs_readme.md)
 1. Copy new parquet files to the data folder 
 1. Update the [data/version.txt](data/version.txt) file with this version. 
@@ -136,10 +136,11 @@ git clone https://github.com/SAFEHR-data/omop-vocabs-processed.git
     ```shell
     git tag ${version}
     ```
-  If you need to re-use an existing tag, you first have to delete it on both local & remote first :
+  If you need to re-use an existing tag, you first have to delete it on both local & remote first. Below shows how to do this for v5 :
     ```shell
-    git tag -d ${version}
+    git tag -d v5
     git push origin --delete v5
+    git tag v5
     ```  
 1. Push the tag for a release
     ```shell
