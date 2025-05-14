@@ -127,7 +127,7 @@ git clone https://github.com/SAFEHR-data/omop-vocabs-processed.git
 
 ## Release procedure
 
-1. Clone this repository and create a new branch
+1. Clone this repository and **create a new branch**
 1. Download vocabulary csv files from Athena & pre-process to parquet files as [detailed in the UCLH omop_es private repository](https://github.com/uclh-criu/omop_es/blob/master/omop_metadata/omop_vocabs_readme.md)
 1. Copy new parquet files to the data folder 
 1. Update the [data/version.txt](data/version.txt) file with this version. 
@@ -136,7 +136,7 @@ git clone https://github.com/SAFEHR-data/omop-vocabs-processed.git
     ```shell
     git tag ${version}
     ```
-  If you need to re-use an existing tag, you first have to delete it on both local & remote first :
+  If you need to re-use an existing tag, you first have to delete it on both local & remote first. Below shows how to do this for v5 :
     ```shell
     git tag -d v5
     git push origin --delete v5
