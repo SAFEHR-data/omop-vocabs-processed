@@ -15,12 +15,12 @@ in this format, replacing the curly braced values:
 
 `https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}`
 
-For example for `v5` data file for the `data/version.txt`:
+For example for `v20250827` data file for the `data/version.txt`:
 
 ### R
 
 ```r
-tag = "v5"
+tag = "v20250827"
 relative_path = "data/concept.parquet"
 download_url = glue::glue("https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}")
 download.file(download_url,
@@ -38,7 +38,7 @@ download.file(download_url,
 ```python
 import urllib.request
 
-tag = "v5"
+tag = "v20250827"
 relative_path = "data/concept.parquet"
 download_url = f"https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}"
 local_filename = "concept.parquet"
@@ -48,7 +48,7 @@ urllib.request.urlretrieve(download_url, local_filename)
 ### Shell
 
 ```shell
-export OMOP_METADATA_VERSION=v5
+export OMOP_METADATA_VERSION=v20250827
 export OMOP_METADATA_PATH=data/concept.parquet
 curl -L -o concept.parquet "https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/${OMOP_METADATA_VERSION}/${OMOP_METADATA_PATH}"
 ```
@@ -132,15 +132,15 @@ git clone https://github.com/SAFEHR-data/omop-vocabs-processed.git
 1. Copy new parquet files to the data folder 
 1. Update the [data/version.txt](data/version.txt) file with this version. 
    For backwards compatibility, also copy this to `data/metadata_version.txt`, we will eventually not maintain this file.
-1. Tag the release, replacing `${version}` , e.g. `git tag v5`
+1. Tag the release, replacing `${version}` , e.g. `git tag v20250827`
     ```shell
     git tag ${version}
     ```
-  If you need to re-use an existing tag, you first have to delete it on both local & remote first. Below shows how to do this for v5 :
+  If you need to re-use an existing tag, you first have to delete it on both local & remote first. Below shows how to do this for v20250827 :
     ```shell
-    git tag -d v5
-    git push origin --delete v5
-    git tag v5
+    git tag -d v20250827
+    git push origin --delete v20250827
+    git tag v20250827
     ```  
 1. Push the tag for a release
     ```shell

@@ -1,39 +1,40 @@
 vocabulary_id,n
-RxNorm Extension,18327508
-SNOMED,8461029
-RxNorm,5292148
-LOINC,2366232
-dm+d,1190178
+RxNorm Extension,18457282
+SNOMED,8540106
+RxNorm,5342397
+LOINC,2372847
+dm+d,1242894
 OMOP Genomic,794749
 ICDO3,656952
-HemOnc,311773
-ATC,225430
-Read,109652
-UK Biobank,77864
-ICD10,58364
-Cancer Modifier,32566
-ICD9Proc,25026
-HCPCS,23101
+HemOnc,311771
+ATC,225686
+Read,109663
+UK Biobank,77867
+ICD10,58359
+Cancer Modifier,32615
+ICD9Proc,25025
+HCPCS,23620
 OPCS4,21926
 NCIt,20563
 CDM,15294
-OMOP Extension,13426
-OXMIS,7782
+OMOP Extension,13531
+OXMIS,7783
 UCUM,6435
+NUCC,3573
 OncoTree,3507
-NUCC,3044
-Medicare Specialty,1299
+Race,3364
+Medicare Specialty,1301
 CIViC,1190
 Revenue Code,1076
-Race,652
-CMS Place of Service,646
+CMS Place of Service,647
 SOPT,644
-Visit,522
-ABMS,508
+Visit,523
+ABMS,510
 HES Specialty,384
-Currency,360
 Type Concept,360
+Currency,360
 UB04 Typ bill,324
+Ethnicity,304
 Cost,102
 Condition Status,76
 US Census,44
@@ -44,13 +45,12 @@ Visit Type,30
 Plan Stop Reason,26
 Plan,22
 Domain,22
+Gender,19
 NHS Place of Service,15
 NHS Ethnic Category,15
 Korean Revenue Code,14
-Gender,13
 UB04 Point of Origin,13
 Sponsor,12
 UB04 Pri Typ of Adm,12
-Ethnicity,8
 Language,3
 Metadata,2
