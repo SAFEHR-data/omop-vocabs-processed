@@ -148,3 +148,34 @@ git clone https://github.com/SAFEHR-data/omop-vocabs-processed.git
     ```
 1. Submit pull request
 
+
+## Process to download raw vocabularies from Athena
+
+Download link : [https://athena.ohdsi.org/vocabulary/list](https://athena.ohdsi.org/vocabulary/list)
+
+In Athena you have to tick boxes manually :
+
+Start with default settings from Athena and remove or add the following.
+
+vocab ID | Brief description
+--------- | -----------------
+**de-select** |
+4 | CPT4
+9 | NDC
+**select** |
+17,18 | Read, OXMIS
+34,35 | ICD10, ICD10PS
+55 | OPCS4 Interventions and Procedures (NHS)
+57 | HES Specialty
+75 | dm+d
+87 | Specimen Type
+90 | ICDO3
+111 | Episode Type
+117 | HemOnc
+134 | CIViC Clinical Interpretation of Variants in Cancer (civicdb.org)
+138,139 | NCIt NCI Thesaurus (National Cancer Institute), HGNC
+141 | Cancer Modifier Diagnostic modifiers of Cancer (OMOP)
+144 | UK Biobank
+146,147 | OMOP Genomic, OncoTree
+154,155 | NHS Ethnic Category, NHS Place of Service
+156 |	CDISC	Clinical Data Interchange Standards Consortium
