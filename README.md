@@ -33,11 +33,12 @@ Parquet vocabularies
 
 ### Summary
 
-0. Local set-up (if not done before)
+0. Local set-up (if not done before) 
 1. Vocabulary csv files downloaded from OHDSI [Athena](https://athena.ohdsi.org/vocabulary/list)
 2. `preprocess_omop_metadata()` converts to parquet (beware that some vocabularies are filtered out)
 3. Run summary report & check if result is as expected
-4. New branch & PR created in [omop-vocabs-processed repository](https://github.com/SAFEHR-data/omop-vocabs-processed) with the new parquet files
+4. Git: New branch & PR created in [omop-vocabs-processed repository](https://github.com/SAFEHR-data/omop-vocabs-processed) with the new parquet files + create tag and new release
+5. Downloading Published Versions
 
 The vocabulary files are used by :
 
@@ -120,7 +121,7 @@ Good way to check if updated vocabularies are as expected is to run `summaries/g
 ------------------------------------------------------------------------
 
 ## 4. Commit/push changes
-- Update data files to the remote repository in a new branch.
+- Update data files to the remote repository in a new branch - it only worked for me (@anabarbararc) when VPN was disconnected
 - Create a new tag with the vocabulary version.
 
 ```shell
