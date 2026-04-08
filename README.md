@@ -119,12 +119,68 @@ Good way to check if updated vocabularies are as expected is to run `summaries/g
 
 ------------------------------------------------------------------------
 
-## 4. Downloading Published Versions
+## 4. Commit/push changes
+- Update data files to the remote repository in a new branch.
+- Create a new tag with the vocabulary version.
+
+```shell
+git switch your-new-branch-name
+git tag -a v20260227 -m "Release version 2026-02-27"
+```
+- Go to your repo → Releases → "Draft a new release"
+- In "Choose a tag", select the tag you just pushed 
+- In "Target", make sure it points to your new branch (not main) — this is the key step
+- Add a release title (e.g. v1.1.0 - Feature X)
+- Add release notes describing what changed
+- Click "Publish release"
+
+------------------------------------------------------------------------
+
+## 5. Downloading Published Versions
 
 Each release is published as a **Git tag** (e.g. `v20250827`).
 
 ### Download URL pattern
 
-```         
-https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}
+You can download a specific tagged version using https.
+in this format, replacing the curly braced values:
+
+`https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}`
+
+For example for `v20260227` data file for the `data/version.txt`:
+
+### R
+
+```r
+tag = "v20260227"
+relative_path = "data/concept.parquet"
+download_url = glue::glue("https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}")
+download.file(download_url,
+              destfile = "concept.parquet",
+              mode = "wb")
+              
+relative_path = "data/concept_relationship.parquet"
+download_url = glue::glue("https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}")
+download.file(download_url,
+              destfile = "concept_relationship.parquet",
+              mode = "wb")              
+```
+### Python
+
+```python
+import urllib.request
+
+tag = "v20260227"
+relative_path = "data/concept.parquet"
+download_url = f"https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}"
+local_filename = "concept.parquet"
+
+urllib.request.urlretrieve(download_url, local_filename)
+```
+### Shell
+
+```shell
+export OMOP_METADATA_VERSION=v20260227
+export OMOP_METADATA_PATH=data/concept.parquet
+curl -L -o concept.parquet "https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/${OMOP_METADATA_VERSION}/${OMOP_METADATA_PATH}"
 ```
