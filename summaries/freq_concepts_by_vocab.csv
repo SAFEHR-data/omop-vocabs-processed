@@ -2,7 +2,7 @@ vocabulary_id,n
 RxNorm Extension,2171452
 SNOMED,1093147
 dm+d,442251
-RxNorm,313091
+RxNorm,315157
 OMOP Genomic,289889
 LOINC,277764
 Read,108945
@@ -11,14 +11,14 @@ CDISC,29018
 UK Biobank,19337
 ICD10,16638
 HemOnc,13376
-HCPCS,12434
+HCPCS,12670
 OPCS4,11000
 OXMIS,8118
-ATC,7223
+ATC,7327
 Cancer Modifier,6043
 ICD9Proc,4657
 NCIt,2426
-OMOP Extension,1459
+OMOP Extension,1462
 Race,1409
 CIViC,1386
 UCUM,1128
@@ -32,13 +32,13 @@ UB04 Typ bill,298
 Currency,180
 SOPT,168
 HES Specialty,165
-Vocabulary,151
+Vocabulary,152
 Ethnicity,150
 Medicare Specialty,120
 Condition Type,118
 ABMS,98
 Procedure Type,97
-Type Concept,80
+Type Concept,81
 Domain,65
 CMS Place of Service,63
 UB04 Pt dis status,55
