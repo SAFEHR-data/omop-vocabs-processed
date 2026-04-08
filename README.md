@@ -1,181 +1,130 @@
 # OMOP Processed Vocabularies
 
-Repository for pre-processed vocabularies for working with the [OMOP CDM](https://ohdsi.github.io/CommonDataModel/) at UCLH.
+This repository hosts curated, versioned, pre‑processed OMOP vocabulary files used at UCLH.
 
-You can download these files directly or follow the local development instructions to use git to clone the files.
+------------------------------------------------------------------------
 
-The files are a subset of the OMOP vocabularies (e.g. SNOMED, LOINC etc.) downloaded from [Athena](https://athena.ohdsi.org/) by selecting which we need. They are saved to parquet files for space & efficiency of use. Here is a summary of which [vocabs are included in the latest version](summaries/freq_concepts_by_vocab.csv).
+## Overview
 
-Note that all vocabulary files are included (e.g. concept, concept_relationship, vocabulary etc.) although we don't use all files in our ETL. Here are the [number of rows per file and the OHDSI vocabulary version](summaries/nrows_per_vocab_file.csv).
+-   **Source**: OHDSI Athena\
+    <https://athena.ohdsi.org/>
 
-## Downloading versions
+-   **Format**: OMOP vocabulary CSV → **Parquet**
 
-You can download a specific tagged version using https.
-in this format, replacing the curly braced values:
+-   **Purpose**: Provide stable, versioned vocabularies for ETL, loading, and analysis
 
-`https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}`
+------------------------------------------------------------------------
 
-For example for `v20250827` data file for the `data/version.txt`:
+## High‑level Proces
 
-### R
-
-```r
-tag = "v20250827"
-relative_path = "data/concept.parquet"
-download_url = glue::glue("https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}")
-download.file(download_url,
-              destfile = "concept.parquet",
-              mode = "wb")
-              
-relative_path = "data/concept_relationship.parquet"
-download_url = glue::glue("https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}")
-download.file(download_url,
-              destfile = "concept_relationship.parquet",
-              mode = "wb")              
-```
-### Python
-
-```python
-import urllib.request
-
-tag = "v20250827"
-relative_path = "data/concept.parquet"
-download_url = f"https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}"
-local_filename = "concept.parquet"
-
-urllib.request.urlretrieve(download_url, local_filename)
-```
-### Shell
-
-```shell
-export OMOP_METADATA_VERSION=v20250827
-export OMOP_METADATA_PATH=data/concept.parquet
-curl -L -o concept.parquet "https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/${OMOP_METADATA_VERSION}/${OMOP_METADATA_PATH}"
+```         
+Athena (OHDSI)
+      |
+      |  Manual download (CSV)
+      v
+Raw OMOP vocabularies
+      |
+      |  preprocess_omop_metadata()  
+      v
+Parquet vocabularies
+      |
+      |  Versioned release
 ```
 
-## Brief summary of vocabs
+### Summary
 
-### R
+0. Local set-up (if not done before)
+1. Vocabulary csv files downloaded from OHDSI [Athena](https://athena.ohdsi.org/vocabulary/list)
+2. `preprocess_omop_metadata()` converts to parquet (beware that some vocabularies are filtered out)
+3. Run summary report & check if result is as expected
+4. New branch & PR created in [omop-vocabs-processed repository](https://github.com/SAFEHR-data/omop-vocabs-processed) with the new parquet files
 
-After downloading as indicated above.
+The vocabulary files are used by :
 
-```r
+- [download_omop_metadata()](download_omop_metadata.R) for omop_es ETL (Extract, Transform & Load)
+- [omop-cascade](https://github.com/uclh-criu/omop-cascade) for database upload
+- [omopcept](https://github.com/SAFEHR-data/omopcept) for vocab queries, joining & visualisation
 
-library(dplyr)
-library(arrow)
-library(readr)
-library(here)
-library(tools)
+---
 
-data_path <- here("data")
+## 0. Local set-up
 
-# open references to all parquet files in the folder
-p <- list.files(data_path, full.names = TRUE, recursive = FALSE, pattern = "*.parquet") |>
-     #set list element names, remove extension, lowercase, remove path
-     purrr::set_names(~ file_path_sans_ext(tolower(basename(.)))) |>
-     purrr::map(arrow::open_dataset)
+- Install `git lfs`
 
-# more longwinded way of doing on indiv files
-# concept               <- arrow::open_dataset(here(datafolder,"concept.parquet"))
-# concept_relationship  <- arrow::open_dataset(here(datafolder,"concept_relationship.parquet"))
-# drug_strength         <- arrow::open_dataset(here(datafolder,"drug_strength.parquet"))
+git LFS (Large File Storage) is required because this repository contains large Parquet files. Git LFS stores these files outside of the main Git history, keeping the repository lightweight and preventing slow clones and bloated storage.
 
-freq_concepts_by_vocab      <- p$concept |> 
-    count(vocabulary_id, sort=TRUE) |> 
-    collect()
+- If you haven't already set up `git lfs` with your git user account
+
+  1. Download and install `git lfs` using [their instructions](https://git-lfs.com/)
+  2. Set up git LFS with your git account
+  
+      ```shell
+        git lfs install
+      ```
     
-freq_concept_relationships_by_vocab <- p$concept_relationship |> 
-    left_join(p$concept, join_by(concept_id_1==concept_id)) |> 
-    count(vocabulary_id, sort=TRUE) |> 
-    collect()
+- Clone this repository:
 
-readr::write_csv(freq_concepts_by_vocab,"summaries/freq_concepts_by_vocab.csv")
-readr::write_csv(freq_concept_relationships_by_vocab,"summaries/freq_concept_relationships_by_vocab.csv")
+  ```shell
+  git clone https://github.com/SAFEHR-data/omop-vocabs-processed.git
+  ```
 
-# create simple summary file just recording num rows in each vocab file
-# can potentially be used to compare versions of vocabs
-dfsum <- tibble( vocabulary_version =     p$vocabulary |> filter(vocabulary_id=='None') |> pull(vocabulary_version,as_vector=TRUE),
-                 nconcept =               p$concept |> nrow(),
-                 nconcept_ancestor =      p$concept_ancestor |> nrow(),
-                 nconcept_relationship =  p$concept_relationship |> nrow(),
-                 ndrug_strength =         p$drug_strength |> nrow(),
-                 nvocabulary =            p$vocabulary |> nrow(), 
-                 nconcept_class =         p$concept_class |> nrow(),                                   nconcept_synonym =       p$concept_synonym |> nrow(),
-                 ndomain =                p$domain |> nrow(),
-                 nrelationship =          p$relationship |> nrow()
-                 )
-                 
-readr::write_csv(dfsum,"summaries/nrows_per_vocab_file.csv")                 
+---
 
+## 1. Download Vocabularies
+
+-   The vocabularies are a **curated subset** of Athena downloads. In Athena, you have to pick or unpick boxes manually. From the **default settings**:
+
+| vocab ID      | Brief description                                                 |
+|-------------------------|-----------------------------------------------|
+| **de-select** |                                                                   |
+| 4             | CPT4                                                              |
+| 9             | NDC                                                               |
+| **select**    |                                                                   |
+| 17,18         | Read, OXMIS                                                       |
+| 34,35         | ICD10, ICD10PS                                                    |
+| 55            | OPCS4 Interventions and Procedures (NHS)                          |
+| 57            | HES Specialty                                                     |
+| 75            | dm+d                                                              |
+| 87            | Specimen Type                                                     |
+| 90            | ICDO3                                                             |
+| 111           | Episode Type                                                      |
+| 117           | HemOnc                                                            |
+| 134           | CIViC Clinical Interpretation of Variants in Cancer (civicdb.org) |
+| 138,139       | NCIt NCI Thesaurus (National Cancer Institute), HGNC              |
+| 141           | Cancer Modifier Diagnostic modifiers of Cancer (OMOP)             |
+| 144           | UK Biobank                                                        |
+| 146,147       | OMOP Genomic, OncoTree                                            |
+| 154,155       | NHS Ethnic Category, NHS Place of Service                         |
+| 156           | CDISC Clinical Data Interchange Standards Consortium              |
+
+------------------------------------------------------------------------
+
+## 2. Pre-process vocabularies for `omop_es`
+
+```         
+source('omop_metadata/preprocess_metadata.R')
+preprocess_omop_metadata("path where downloaded vocabularies are located")
 ```
 
-## Local development
+This saves the parquet files in the `omop-vocabs-processed/data` directory.
 
-If you haven't already set up `git lfs` with your git user account:
+## 3. Summary outputs
 
-1. Download and install `git lfs` using [their instructions](https://git-lfs.com/)
-2. Set up git LFS with your git account
-    ```shell
-    git lfs install
-    ```
+Good way to check if updated vocabularies are as expected is to run `summaries/generate_summaries.R`.
 
-Clone this repository:
+-   Concept counts by vocabulary
+    -   `summaries/freq_concepts_by_vocab.csv`
+-   Row counts per OMOP vocabulary table + Athena version
+    -   `summaries/nrows_per_vocab_file.csv`
 
-```shell
-git clone https://github.com/SAFEHR-data/omop-vocabs-processed.git
+------------------------------------------------------------------------
+
+## 4. Downloading Published Versions
+
+Each release is published as a **Git tag** (e.g. `v20250827`).
+
+### Download URL pattern
+
+```         
+https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}
 ```
-
-## Release procedure
-
-1. Clone this repository and **create a new branch**
-1. Download vocabulary csv files from Athena & pre-process to parquet files as [detailed in the UCLH omop_es private repository](https://github.com/uclh-criu/omop_es/blob/master/omop_metadata/omop_vocabs_readme.md)
-1. Copy new parquet files to the data folder 
-1. Update the [data/version.txt](data/version.txt) file with this version. 
-   For backwards compatibility, also copy this to `data/metadata_version.txt`, we will eventually not maintain this file.
-1. Tag the release, replacing `${version}` , e.g. `git tag v20250827`
-    ```shell
-    git tag ${version}
-    ```
-  If you need to re-use an existing tag, you first have to delete it on both local & remote first. Below shows how to do this for v20250827 :
-    ```shell
-    git tag -d v20250827
-    git push origin --delete v20250827
-    git tag v20250827
-    ```  
-1. Push the tag for a release
-    ```shell
-    git push --tags origin
-    ```
-1. Submit pull request
-
-
-## Process to download raw vocabularies from Athena
-
-Download link : [https://athena.ohdsi.org/vocabulary/list](https://athena.ohdsi.org/vocabulary/list)
-
-In Athena you have to tick boxes manually :
-
-Start with default settings from Athena and remove or add the following.
-
-vocab ID | Brief description
---------- | -----------------
-**de-select** |
-4 | CPT4
-9 | NDC
-**select** |
-17,18 | Read, OXMIS
-34,35 | ICD10, ICD10PS
-55 | OPCS4 Interventions and Procedures (NHS)
-57 | HES Specialty
-75 | dm+d
-87 | Specimen Type
-90 | ICDO3
-111 | Episode Type
-117 | HemOnc
-134 | CIViC Clinical Interpretation of Variants in Cancer (civicdb.org)
-138,139 | NCIt NCI Thesaurus (National Cancer Institute), HGNC
-141 | Cancer Modifier Diagnostic modifiers of Cancer (OMOP)
-144 | UK Biobank
-146,147 | OMOP Genomic, OncoTree
-154,155 | NHS Ethnic Category, NHS Place of Service
-156 |	CDISC	Clinical Data Interchange Standards Consortium
