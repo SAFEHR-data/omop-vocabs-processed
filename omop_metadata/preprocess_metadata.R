@@ -27,9 +27,9 @@ preprocess_omop_metadata <- function(athena_source_directory) {
   }
 
   write_result <- function(data, file) {
-    vocab_dir <- glue::glue(here::here("data\\"))
+    vocab_dir <- glue::glue(here::here("data"))
     if (!dir.exists(vocab_dir)) fs::dir_create(vocab_dir)
-    output_file <- glue::glue(vocab_dir, file)
+    output_file <- glue::glue(vocab_dir, "\\", file)
     arrow::write_parquet(data, output_file)
   }
 
