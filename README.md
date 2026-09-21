@@ -34,7 +34,7 @@ flowchart TD
 
 The vocabulary files are used by :
 
--   [download_omop_metadata()](download_omop_metadata.R) for omop_es ETL (Extract, Transform & Load)
+-   omop_es ETL as shown in this [redacted copy](https://github.com/SAFEHR-data/omop_es) by setting [version in the private repo](https://github.com/uclh-criu/omop_es/blob/f62bcf88dadd082d6cf287f4bc4ef04888845312/omop_metadata/omop_metadata_service.R#L1)
 -   [omop-cascade](https://github.com/uclh-criu/omop-cascade) for database upload
 -   [omopcept](https://github.com/SAFEHR-data/omopcept) for vocab queries, joining & visualisation
 
