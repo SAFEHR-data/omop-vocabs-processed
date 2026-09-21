@@ -116,11 +116,12 @@ Good way to check if updated vocabularies are as expected is to run `summaries/g
 ## 4. Commit/push changes
 
 -   Update data files to the remote repository in a new branch - it only worked for me (@anabarbararc) when VPN was disconnected
--   Create a new tag with the vocabulary version.
+-   Create a new tag with the vocabulary version (works before or after branch merge).
 
 ``` shell
 git switch your-new-branch-name
 git tag -a v20260227 -m "Release version 2026-02-27"
+git push origin --tags
 ```
 
 -   Go to your repo → Releases → "Draft a new release"
