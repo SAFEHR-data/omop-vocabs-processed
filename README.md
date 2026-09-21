@@ -120,7 +120,7 @@ Good way to check if updated vocabularies are as expected is to run `summaries/g
 
 ``` shell
 git switch your-new-branch-name
-git tag -a v20260227 -m "Release version 2026-02-27"
+git tag -a v20260829 -m "Release version 2026-08-29"
 git push origin --tags
 ```
 
@@ -135,7 +135,7 @@ git push origin --tags
 
 ## 5. Downloading Published Versions
 
-Each release is published as a **Git tag** (e.g. `v20250827`).
+Each release is published as a **Git tag** (e.g. `v20260829`).
 
 ### Download URL pattern
 
@@ -143,12 +143,12 @@ You can download a specific tagged version using https. in this format, replacin
 
 `https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}`
 
-For example for `v20260227` data file for the `data/version.txt`:
+For example for `v20260829` data file for the `data/version.txt`:
 
 ### R
 
 ``` r
-tag = "v20260227"
+tag = "v20260829"
 relative_path = "data/concept.parquet"
 download_url = glue::glue("https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}")
 download.file(download_url,
@@ -167,7 +167,7 @@ download.file(download_url,
 ``` python
 import urllib.request
 
-tag = "v20260227"
+tag = "v20260829"
 relative_path = "data/concept.parquet"
 download_url = f"https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}"
 local_filename = "concept.parquet"
@@ -178,7 +178,7 @@ urllib.request.urlretrieve(download_url, local_filename)
 ### Shell
 
 ``` shell
-export OMOP_METADATA_VERSION=v20260227
+export OMOP_METADATA_VERSION=v20260829
 export OMOP_METADATA_PATH=data/concept.parquet
 curl -L -o concept.parquet "https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/${OMOP_METADATA_VERSION}/${OMOP_METADATA_PATH}"
 ```
