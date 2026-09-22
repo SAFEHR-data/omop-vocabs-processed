@@ -37,7 +37,8 @@ preprocess_omop_metadata <- function(athena_source_directory) {
     convert_valid_dates() |>
     # beware this filtering out of some vocabs
     # deselecting in Athena download could fix all except OSM that is included by default
-    filter(!(vocabulary_id %in% c("NDC", "SPL", "OSM", "ICD10PCS", "ICD10CM", "ICD9CM"))) |>
+    # all except OSM added to deselection list in Readme, reduce filter to OSM at next update
+    filter(!(vocabulary_id %in% c("NDC", "SPL", "OSM", "ICD10PCS", "ICD10CM", "ICD9CM", "ICD9Proc"))) |>
     write_result("concept.parquet")
 
   read_athena_data("CONCEPT_RELATIONSHIP.csv", col_types = "iiciic") |>
