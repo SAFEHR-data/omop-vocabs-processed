@@ -1,0 +1,71 @@
+vocabulary_id
+ABMS
+ATC
+CDISC
+CDM
+CIViC
+CMS Place of Service
+Cancer Modifier
+Concept Class
+Condition Status
+Condition Type
+Cost
+Cost Type
+Currency
+Death Type
+Device Type
+Domain
+Drug Type
+Episode
+Episode Type
+Ethnicity
+Gender
+HCPCS
+HES Specialty
+HemOnc
+ICD10
+ICDO3
+Korean Revenue Code
+LOINC
+Language
+Meas Type
+Medicare Specialty
+Metadata
+NCIt
+NHS Ethnic Category
+NHS Place of Service
+NUCC
+None
+Note Type
+OMOP Extension
+OMOP Genomic
+OPCS4
+OXMIS
+Obs Period Type
+Observation Type
+OncoTree
+Plan
+Plan Stop Reason
+Procedure Type
+Race
+Read
+Relationship
+Revenue Code
+RxNorm
+RxNorm Extension
+SNOMED
+SOPT
+Specimen Type
+Sponsor
+Type Concept
+UB04 Point of Origin
+UB04 Pri Typ of Adm
+UB04 Pt dis status
+UB04 Typ bill
+UCUM
+UK Biobank
+US Census
+Visit
+Visit Type
+Vocabulary
+dm+d

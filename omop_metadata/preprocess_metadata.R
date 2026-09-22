@@ -2,6 +2,7 @@
 # Users would normally download and use the resulting files.
 
 library(dplyr)
+library(here)
 
 #' This function reads in vocabulary files downloaded from Athena, preprocess them
 #' and writes them out as binary files for better performance.
@@ -38,8 +39,25 @@ preprocess_omop_metadata <- function(athena_source_directory) {
     # beware this filtering out of some vocabs
     # deselecting in Athena download could fix all except OSM that is included by default
     # all except OSM added to deselection list in Readme, reduce filter to OSM at next update
-    filter(!(vocabulary_id %in% c("NDC", "SPL", "OSM", "ICD10PCS", "ICD10CM", "ICD9CM", "ICD9Proc"))) |>
-    write_result("concept.parquet")
+    filter(!(vocabulary_id %in% c("NDC", "SPL", "OSM", "ICD10PCS", "ICD10CM", "ICD9CM", "ICD9Proc")))
+
+  vocabs_file <- here::here("omop_metadata//expected_vocabs_in_concept.csv")
+  if ( file.exists(vocabs_file)) {
+
+    expected_vocabs <- readr::read_csv(vocabs_file) |>  pull()
+    vocabs_in_concept <- concepts |> distinct(vocabulary_id) |> pull()
+    vocab_differences <- symdiff(expected_vocabs, vocabs_in_concept)
+
+    assertthat::assert_that(length(vocab_differences) == 0,
+                            msg = glue::glue("downloaded vocabs differ from expected by:
+                                        {toString(vocab_differences)}
+                                        check Athena selections against list in Readme"))
+  } else {
+    warning(paste("vocab checking file not found, are you running from omop-vocabs-processed\n ",
+                  vocabs_file))
+  }
+
+  concepts |> write_result("concept.parquet")
 
   read_athena_data("CONCEPT_RELATIONSHIP.csv", col_types = "iiciic") |>
     # semi_joins to exclude concepts not in concept.csv, e.g. vocabs filtered above
