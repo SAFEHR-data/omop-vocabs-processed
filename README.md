@@ -84,7 +84,7 @@ git LFS (Large File Storage) is required because this repository contains large 
 | 111           | Episode Type                                                      |
 | 117           | HemOnc                                                            |
 | 134           | CIViC Clinical Interpretation of Variants in Cancer (civicdb.org) |
-| 138,139       | NCIt NCI Thesaurus (National Cancer Institute), HGNC              |
+| 138           | NCIt NCI Thesaurus (National Cancer Institute)              |
 | 141           | Cancer Modifier Diagnostic modifiers of Cancer (OMOP)             |
 | 144           | UK Biobank                                                        |
 | 146,147       | OMOP Genomic, OncoTree                                            |
