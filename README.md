@@ -71,11 +71,15 @@ git LFS (Large File Storage) is required because this repository contains large 
 | vocab ID      | Brief description                                                 |
 |-------------------------|-----------------------------------------------|
 | **de-select** |                                                                   |
+| 2             | ICD9CM Clinical Modification, Volume 1 and 2 (NCHS)               |
+| 3             | ICD9Proc, Clinical Modification, Volume 3 (NCHS)                  |
 | 4             | CPT4                                                              |
-| 9             | NDC                                                               |
+| 9             | NDC                                                               |  
+| 52            | SPL Structured Product Labeling (FDA)                             |
+| 60            | ICD Tenth Revision, Clinical Modification (NCHS)                  |
 | **select**    |                                                                   |
 | 17,18         | Read, OXMIS                                                       |
-| 34,35         | ICD10, ICD10PS                                                    |
+| 34            | ICD10                                                             |
 | 55            | OPCS4 Interventions and Procedures (NHS)                          |
 | 57            | HES Specialty                                                     |
 | 75            | dm+d                                                              |
@@ -84,7 +88,7 @@ git LFS (Large File Storage) is required because this repository contains large 
 | 111           | Episode Type                                                      |
 | 117           | HemOnc                                                            |
 | 134           | CIViC Clinical Interpretation of Variants in Cancer (civicdb.org) |
-| 138           | NCIt NCI Thesaurus (National Cancer Institute)              |
+| 138           | NCIt NCI Thesaurus (National Cancer Institute)                    |
 | 141           | Cancer Modifier Diagnostic modifiers of Cancer (OMOP)             |
 | 144           | UK Biobank                                                        |
 | 146,147       | OMOP Genomic, OncoTree                                            |
