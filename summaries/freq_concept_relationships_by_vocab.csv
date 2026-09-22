@@ -1,22 +1,22 @@
 vocabulary_id,n
-RxNorm Extension,18525253
-SNOMED,8752332
-RxNorm,5321953
-LOINC,2464726
+RxNorm Extension,18525258
+SNOMED,8751398
+RxNorm,5321954
+LOINC,2464728
 dm+d,1242875
 OMOP Genomic,806748
 ICDO3,659723
 HemOnc,311818
 ATC,217044
-Read,109608
+Read,109612
 UK Biobank,77867
 ICD10,58381
 Cancer Modifier,38121
-ICD9Proc,25249
 HCPCS,24375
+OPCS4,21926
 NCIt,20563
 CDM,16514
-OMOP Extension,13655
+OMOP Extension,13654
 OXMIS,7787
 UCUM,6723
 CDISC,5497
@@ -46,8 +46,8 @@ Plan Stop Reason,26
 Plan,22
 Domain,22
 Gender,21
-NHS Ethnic Category,15
 NHS Place of Service,15
+NHS Ethnic Category,15
 Korean Revenue Code,14
 UB04 Point of Origin,13
 Sponsor,12
