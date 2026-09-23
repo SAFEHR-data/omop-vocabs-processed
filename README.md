@@ -34,7 +34,7 @@ flowchart TD
 
 The vocabulary files are used by :
 
--   [download_omop_metadata()](download_omop_metadata.R) for omop_es ETL (Extract, Transform & Load)
+-   omop_es ETL as shown in this [redacted copy](https://github.com/SAFEHR-data/omop_es) by setting [version in the private repo](https://github.com/uclh-criu/omop_es/blob/f62bcf88dadd082d6cf287f4bc4ef04888845312/omop_metadata/omop_metadata_service.R#L1)
 -   [omop-cascade](https://github.com/uclh-criu/omop-cascade) for database upload
 -   [omopcept](https://github.com/SAFEHR-data/omopcept) for vocab queries, joining & visualisation
 
@@ -71,11 +71,15 @@ git LFS (Large File Storage) is required because this repository contains large 
 | vocab ID      | Brief description                                                 |
 |-------------------------|-----------------------------------------------|
 | **de-select** |                                                                   |
+| 2             | ICD9CM, Clinical Modification, Volume 1 and 2 (NCHS)               |
+| 3             | ICD9Proc, Clinical Modification, Volume 3 (NCHS)                  |
 | 4             | CPT4                                                              |
-| 9             | NDC                                                               |
+| 9             | NDC                                                               |  
+| 52            | SPL Structured Product Labeling (FDA)                             |
+| 60            | ICD10CM, Clinical Modification (NCHS)                  |
 | **select**    |                                                                   |
 | 17,18         | Read, OXMIS                                                       |
-| 34,35         | ICD10, ICD10PS                                                    |
+| 34            | ICD10                                                             |
 | 55            | OPCS4 Interventions and Procedures (NHS)                          |
 | 57            | HES Specialty                                                     |
 | 75            | dm+d                                                              |
@@ -84,7 +88,7 @@ git LFS (Large File Storage) is required because this repository contains large 
 | 111           | Episode Type                                                      |
 | 117           | HemOnc                                                            |
 | 134           | CIViC Clinical Interpretation of Variants in Cancer (civicdb.org) |
-| 138,139       | NCIt NCI Thesaurus (National Cancer Institute), HGNC              |
+| 138           | NCIt NCI Thesaurus (National Cancer Institute)                    |
 | 141           | Cancer Modifier Diagnostic modifiers of Cancer (OMOP)             |
 | 144           | UK Biobank                                                        |
 | 146,147       | OMOP Genomic, OncoTree                                            |
@@ -116,11 +120,12 @@ Good way to check if updated vocabularies are as expected is to run `summaries/g
 ## 4. Commit/push changes
 
 -   Update data files to the remote repository in a new branch - it only worked for me (@anabarbararc) when VPN was disconnected
--   Create a new tag with the vocabulary version.
+-   Create a new tag with the vocabulary version (works before or after branch merge).
 
 ``` shell
 git switch your-new-branch-name
-git tag -a v20260227 -m "Release version 2026-02-27"
+git tag -a v20260829 -m "Release version 2026-08-29"
+git push origin --tags
 ```
 
 -   Go to your repo → Releases → "Draft a new release"
@@ -130,11 +135,17 @@ git tag -a v20260227 -m "Release version 2026-02-27"
 -   Add release notes describing what changed
 -   Click "Publish release"
 
+If you need to replace a tagged version, delete the tag locally & remotely. Then re-release.
+``` shell
+git tag -d v20260829
+git push origin --delete v20260829
+```
+
 ------------------------------------------------------------------------
 
 ## 5. Downloading Published Versions
 
-Each release is published as a **Git tag** (e.g. `v20250827`).
+Each release is published as a **Git tag** (e.g. `v20260829`).
 
 ### Download URL pattern
 
@@ -142,12 +153,12 @@ You can download a specific tagged version using https. in this format, replacin
 
 `https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}`
 
-For example for `v20260227` data file for the `data/version.txt`:
+For example for `v20260829` data file for the `data/version.txt`:
 
 ### R
 
 ``` r
-tag = "v20260227"
+tag = "v20260829"
 relative_path = "data/concept.parquet"
 download_url = glue::glue("https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}")
 download.file(download_url,
@@ -166,7 +177,7 @@ download.file(download_url,
 ``` python
 import urllib.request
 
-tag = "v20260227"
+tag = "v20260829"
 relative_path = "data/concept.parquet"
 download_url = f"https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/{tag}/{relative_path}"
 local_filename = "concept.parquet"
@@ -177,7 +188,7 @@ urllib.request.urlretrieve(download_url, local_filename)
 ### Shell
 
 ``` shell
-export OMOP_METADATA_VERSION=v20260227
+export OMOP_METADATA_VERSION=v20260829
 export OMOP_METADATA_PATH=data/concept.parquet
 curl -L -o concept.parquet "https://github.com/SAFEHR-data/omop-vocabs-processed/raw/refs/tags/${OMOP_METADATA_VERSION}/${OMOP_METADATA_PATH}"
 ```
