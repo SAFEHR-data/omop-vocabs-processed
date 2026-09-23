@@ -135,6 +135,12 @@ git push origin --tags
 -   Add release notes describing what changed
 -   Click "Publish release"
 
+If you need to replace a tagged version, delete the tag locally & remotely. Then re-release.
+``` shell
+git tag -d v20260829
+git push origin --delete v20260829
+```
+
 ------------------------------------------------------------------------
 
 ## 5. Downloading Published Versions
