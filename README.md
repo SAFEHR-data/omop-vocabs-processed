@@ -71,12 +71,12 @@ git LFS (Large File Storage) is required because this repository contains large 
 | vocab ID      | Brief description                                                 |
 |-------------------------|-----------------------------------------------|
 | **de-select** |                                                                   |
-| 2             | ICD9CM Clinical Modification, Volume 1 and 2 (NCHS)               |
+| 2             | ICD9CM, Clinical Modification, Volume 1 and 2 (NCHS)               |
 | 3             | ICD9Proc, Clinical Modification, Volume 3 (NCHS)                  |
 | 4             | CPT4                                                              |
 | 9             | NDC                                                               |  
 | 52            | SPL Structured Product Labeling (FDA)                             |
-| 60            | ICD Tenth Revision, Clinical Modification (NCHS)                  |
+| 60            | ICD10CM, Clinical Modification (NCHS)                  |
 | **select**    |                                                                   |
 | 17,18         | Read, OXMIS                                                       |
 | 34            | ICD10                                                             |

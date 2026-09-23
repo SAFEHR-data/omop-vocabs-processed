@@ -36,10 +36,12 @@ preprocess_omop_metadata <- function(athena_source_directory) {
 
   concepts <- read_athena_data("CONCEPT.csv", col_types = "icccccciic") |>
     convert_valid_dates() |>
-    # beware this filtering out of some vocabs
-    # deselecting in Athena download could fix all except OSM that is included by default
-    # all except OSM added to deselection list in Readme, reduce filter to OSM at next update
-    filter(!(vocabulary_id %in% c("NDC", "SPL", "OSM", "ICD10PCS", "ICD10CM", "ICD9CM", "ICD9Proc")))
+    # beware filtering of some vocabs
+    # delete next 2 commented lines at next update
+    # filtering used up to v20260829 then moved to deselection in Readme
+    # filter(!(vocabulary_id %in% c("NDC", "SPL", "OSM", "ICD10PCS", "ICD10CM", "ICD9CM", "ICD9Proc")))
+    # OSM (OpenStreetMap) not in Athena list so can't be deselected
+    filter(!(vocabulary_id %in% c("OSM")))
 
   vocabs_file <- here::here("omop_metadata//expected_vocabs_in_concept.csv")
   if ( file.exists(vocabs_file)) {
